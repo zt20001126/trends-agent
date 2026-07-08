@@ -3,45 +3,45 @@
 ## 0. 工程初始化
 
 - [ ] 确认当前目录是否需要初始化 git 仓库。
-- [ ] 创建 Python 项目基础结构。
-- [ ] 创建 `backend/app` 分层目录。
-- [ ] 创建 `.env.example`，包含 DeepSeek 和 PostgreSQL 配置示例。
-- [ ] 创建 `.gitignore`，排除 `.env`、缓存、虚拟环境、数据大文件。
-- [ ] 确认 Anaconda `hooks` 环境可用。
+- [x] 创建 Python 项目基础结构。
+- [x] 创建 `backend/app` 分层目录。
+- [x] 创建 `.env.example`，包含 DeepSeek 和 PostgreSQL 配置示例。
+- [x] 创建 `.gitignore`，排除 `.env`、缓存、虚拟环境、数据大文件。
+- [x] 确认 Anaconda `hooks` 环境可用。
 
 ## 1. Docker PostgreSQL
 
-- [ ] 创建 `docker-compose.yml`。
-- [ ] 配置 PostgreSQL 服务名、数据库、用户、密码和端口。
-- [ ] 使用数据库名 `trends_agent`。
-- [ ] 使用用户名 `trends_agent`。
-- [ ] 使用默认端口 `5432`。
-- [ ] 验证 PostgreSQL 容器可以启动。
-- [ ] 验证本机可以连接 `trends_agent` 数据库。
+- [x] 创建 `docker-compose.yml`。
+- [x] 配置 PostgreSQL 服务名、数据库、用户、密码和端口。
+- [x] 使用数据库名 `trends_agent`。
+- [x] 使用用户名 `trends_agent`。
+- [x] 使用默认端口 `5432`。
+- [x] 验证 PostgreSQL 容器可以启动。
+- [x] 验证本机可以连接 `trends_agent` 数据库。
 
 ## 2. 后端基础设施
 
-- [ ] 创建 FastAPI 应用入口。
-- [ ] 创建 `/api/v1/health` 接口。
-- [ ] 创建 Settings 配置类。
-- [ ] 创建统一异常类。
-- [ ] 创建统一响应结构。
+- [x] 创建 FastAPI 应用入口。
+- [x] 创建 `/api/v1/health` 接口。
+- [x] 创建 Settings 配置类。
+- [x] 创建统一异常类。
+- [x] 创建统一响应结构。
 - [ ] 配置基础日志。
 
 ## 3. 数据库与 ORM
 
 - [ ] 安装 SQLAlchemy 2.x、psycopg、Alembic。
-- [ ] 创建数据库连接 session。
-- [ ] 创建 SQLAlchemy Base。
-- [ ] 创建 `SelectionTask` ORM 模型。
-- [ ] 创建 `TrendResult` ORM 模型。
-- [ ] 创建 `ProductResult` ORM 模型。
-- [ ] 创建 `ReviewResult` ORM 模型。
-- [ ] 创建 `ScoreResult` ORM 模型。
-- [ ] 创建 `Report` ORM 模型。
-- [ ] 初始化 Alembic。
-- [ ] 生成第一版 migration。
-- [ ] 执行 migration 创建表。
+- [x] 创建数据库连接 session。
+- [x] 创建 SQLAlchemy Base。
+- [x] 创建 `SelectionTask` ORM 模型。
+- [x] 创建 `TrendResult` ORM 模型。
+- [x] 创建 `ProductResult` ORM 模型。
+- [x] 创建 `ReviewResult` ORM 模型。
+- [x] 创建 `ScoreResult` ORM 模型。
+- [x] 创建 `Report` ORM 模型。
+- [x] 初始化 Alembic。
+- [x] 生成第一版 migration。
+- [x] 执行 migration 创建表。
 
 ## 4. Schema 与 Repository
 

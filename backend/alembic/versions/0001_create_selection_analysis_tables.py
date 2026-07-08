@@ -1,6 +1,6 @@
 """create selection analysis tables
 
-Revision ID: 0001_create_selection_analysis_tables
+Revision ID: 0001_selection_tables
 Revises: None
 Create Date: 2026-07-08
 """
@@ -10,7 +10,7 @@ from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
-revision: str = "0001_create_selection_analysis_tables"
+revision: str = "0001_selection_tables"
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -151,4 +151,3 @@ def downgrade() -> None:
     op.drop_table("product_results")
     op.drop_table("trend_results")
     op.drop_table("selection_tasks")
-
