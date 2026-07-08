@@ -8,8 +8,11 @@ from app.common.enums import SelectionTaskStatus
 from app.common.exceptions import BusinessException
 from app.repositories.selection_repository import SelectionRepository
 from app.schemas.selection import (
+    BatchSelectionAnalyzeRequest,
+    BatchSelectionAnalyzeResponse,
     SelectionAnalyzeResponse,
     SelectionAnalyzeRequest,
+    SelectionTaskListResponse,
     SelectionTaskDetailResponse,
     SelectionTaskResponse,
 )
@@ -81,6 +84,73 @@ class SelectionService:
             report=final_state["report"].markdown_content,
         )
 
+    def create_pending_task(self, request: SelectionAnalyzeRequest) -> SelectionTaskResponse:
+        """创建异步选品分析任务。
+
+        Step 1: 写入 pending 状态任务。
+        Step 2: 提交事务，让后台任务可以独立读取。
+        Step 3: 返回任务基础信息给 API 层。
+        """
+        task = self.repository.create_task(
+            keyword=request.keyword,
+            country=request.country,
+            language=request.language,
+            status=SelectionTaskStatus.PENDING.value,
+        )
+        self.db_session.commit()
+        return SelectionTaskResponse.model_validate(task)
+
+    def run_existing_task(self, task_id: UUID) -> None:
+        """执行已创建的异步分析任务。"""
+        task = self.repository.get_task(task_id)
+        if task is None:
+            raise BusinessException(message="选品分析任务不存在", code="SELECTION_TASK_NOT_FOUND", http_status=404)
+
+        self.repository.update_task_status(task=task, status=SelectionTaskStatus.RUNNING.value)
+        try:
+            self.workflow.run(
+                task_id=task.id,
+                keyword=task.keyword,
+                country=task.country,
+                language=task.language,
+                repository=self.repository,
+            )
+            self.db_session.commit()
+        except Exception as exc:
+            self.db_session.rollback()
+            failed_task = self.repository.get_task(task_id)
+            if failed_task is not None:
+                self.repository.update_task_status(
+                    task=failed_task,
+                    status=SelectionTaskStatus.FAILED.value,
+                    error_message=str(exc),
+                )
+                self.db_session.commit()
+            raise
+
+    def analyze_batch(self, request: BatchSelectionAnalyzeRequest) -> BatchSelectionAnalyzeResponse:
+        """批量执行选品分析。"""
+        results = [
+            self.analyze(
+                SelectionAnalyzeRequest(
+                    keyword=keyword,
+                    country=request.country,
+                    language=request.language,
+                )
+            )
+            for keyword in request.keywords
+        ]
+        return BatchSelectionAnalyzeResponse(results=results)
+
+    def list_tasks(self, limit: int, offset: int) -> SelectionTaskListResponse:
+        """分页查询历史选品分析任务。"""
+        tasks = self.repository.list_tasks(limit=limit, offset=offset)
+        return SelectionTaskListResponse(
+            items=[SelectionTaskResponse.model_validate(task) for task in tasks],
+            limit=limit,
+            offset=offset,
+        )
+
     def get_task_detail(self, task_id: UUID) -> SelectionTaskDetailResponse:
         """查询选品分析任务详情。
 
@@ -111,3 +181,14 @@ class SelectionService:
             column.name: getattr(model, column.name)
             for column in model.__table__.columns  # type: ignore[attr-defined]
         }
+
+
+def run_selection_analysis_background(task_id: UUID) -> None:
+    """后台执行选品分析任务，作为 MVP 级异步任务队列入口。"""
+    from app.db.session import SessionLocal
+
+    db_session = SessionLocal()
+    try:
+        SelectionService(db_session).run_existing_task(task_id)
+    finally:
+        db_session.close()

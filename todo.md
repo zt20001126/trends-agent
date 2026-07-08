@@ -73,7 +73,7 @@
 - [x] 为 Google Trends Tool 增加缓存和失败返回。
 - [x] 实现 Amazon Product Metadata Tool。
 - [x] 支持从 `data/samples` 读取小样本。
-- [ ] 预留 Hugging Face streaming 数据读取接口。
+- [x] 预留 Hugging Face streaming 数据读取接口。
 - [x] 实现 Review Analysis Tool。
 - [x] 支持低星评论筛选。
 - [x] 支持痛点关键词提取。
@@ -132,20 +132,20 @@
 
 ## 12. 本地运行验证
 
-- [ ] 启动 Docker PostgreSQL。
-- [ ] 执行 Alembic migration。
-- [ ] 启动 FastAPI。
-- [ ] 使用关键词“智能手环”跑完整流程。
-- [ ] 使用关键词“portable blender”跑完整流程。
-- [ ] 使用关键词“dog water bottle”跑完整流程。
-- [ ] 检查报告是否包含数据限制和风险说明。
+- [x] 启动 Docker PostgreSQL。
+- [x] 执行 Alembic migration。
+- [x] 启动 FastAPI。
+- [x] 使用关键词“智能手环”跑完整流程。
+- [x] 使用关键词“portable blender”跑完整流程。
+- [x] 使用关键词“dog water bottle”跑完整流程。
+- [x] 检查报告是否包含数据限制和风险说明。
 
 ## 13. 后续扩展
 
-- [ ] 设计 Keepa Provider 接口。
-- [ ] 设计 Amazon SP-API Provider 接口。
-- [ ] 设计 SellerSprite Provider 接口。
-- [ ] 支持异步任务队列。
-- [ ] 支持报告历史列表。
-- [ ] 支持批量关键词分析。
-- [ ] 支持前端页面展示。
+- [x] 设计 Keepa Provider 接口。
+- [x] 设计 Amazon SP-API Provider 接口。
+- [x] 设计 SellerSprite Provider 接口。
+- [x] 支持异步任务队列。
+- [x] 支持报告历史列表。
+- [x] 支持批量关键词分析。
+- [x] 支持前端页面展示。

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI跨境电商选品智能体</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, "Microsoft YaHei", sans-serif;
+        background: #f6f7f9;
+        color: #1f2937;
+      }
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 32px 20px;
+      }
+      header {
+        margin-bottom: 24px;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 28px;
+      }
+      .toolbar {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      input {
+        flex: 1;
+        padding: 10px 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      button {
+        padding: 10px 14px;
+        border: 0;
+        border-radius: 6px;
+        background: #2563eb;
+        color: white;
+        cursor: pointer;
+      }
+      pre {
+        min-height: 360px;
+        padding: 16px;
+        overflow: auto;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>AI跨境电商选品智能体</h1>
+      </header>
+      <section class="toolbar">
+        <input id="keyword" value="智能手环" aria-label="商品关键词" />
+        <button id="analyze" type="button">分析</button>
+      </section>
+      <pre id="report">输入关键词后点击分析。</pre>
+    </main>
+    <script>
+      const button = document.getElementById("analyze");
+      const keywordInput = document.getElementById("keyword");
+      const report = document.getElementById("report");
+
+      button.addEventListener("click", async () => {
+        report.textContent = "分析中...";
+        const response = await fetch("/api/v1/selections/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ keyword: keywordInput.value, country: "US" })
+        });
+        const payload = await response.json();
+        report.textContent = payload.data?.report || payload.message || "未生成报告";
+      });
+    </script>
+  </body>
+</html>

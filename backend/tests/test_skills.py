@@ -18,6 +18,18 @@ class FailingReportTool:
         raise BusinessException(message="failed")
 
 
+class RisklessReportTool:
+    """测试用报告 Tool，用于验证风险声明兜底。"""
+
+    def generate(self, report_input: SelectionReportInput) -> ReportDTO:
+        return ReportDTO(
+            title="测试报告",
+            markdown_content="# 测试报告",
+            summary="测试",
+            recommendation="recommended",
+        )
+
+
 def test_analysis_skills_call_tools_and_return_dtos() -> None:
     """验证趋势、商品、评论和评分 Skill 可以串联基础 Tool。"""
     trend_result = TrendSkill(trend_tool=GoogleTrendTool(enable_live=False)).analyze("smart fitness band", "US")
@@ -44,3 +56,12 @@ def test_report_skill_falls_back_to_template_report() -> None:
     assert result.title == "选品分析报告：智能手环"
     assert result.recommendation == "cautiously_recommended"
 
+
+def test_report_skill_ensures_risk_notice() -> None:
+    """验证 LLM 报告遗漏风险声明时会被强制补齐。"""
+    report_input = SelectionReportInput(keyword="portable blender", normalized_keyword="portable blender")
+
+    result = ReportSkill(llm_report_tool=RisklessReportTool()).generate(report_input)
+
+    assert "未使用付费 API" in result.markdown_content
+    assert "风险说明" in result.markdown_content

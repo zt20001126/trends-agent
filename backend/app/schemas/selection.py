@@ -24,6 +24,20 @@ class SelectionAnalyzeResponse(BaseModel):
     report: str | None = Field(default=None, description="Markdown 格式选品报告")
 
 
+class BatchSelectionAnalyzeRequest(BaseModel):
+    """批量选品分析请求，用于一次提交多个关键词。"""
+
+    keywords: list[str] = Field(..., min_length=1, max_length=20, description="商品关键词列表")
+    country: str = Field(default="US", min_length=2, max_length=10, description="目标站点国家代码")
+    language: str = Field(default="zh-CN", min_length=2, max_length=20, description="用户输入语言")
+
+
+class BatchSelectionAnalyzeResponse(BaseModel):
+    """批量选品分析响应，用于返回多个任务的分析结果。"""
+
+    results: list[SelectionAnalyzeResponse] = Field(default_factory=list, description="批量分析结果")
+
+
 class SelectionTaskResponse(BaseModel):
     """选品任务响应，用于返回任务基础信息。"""
 
@@ -112,3 +126,10 @@ class SelectionTaskDetailResponse(BaseModel):
     score_result: dict[str, Any] | None = Field(default=None, description="评分结果")
     report: dict[str, Any] | None = Field(default=None, description="报告结果")
 
+
+class SelectionTaskListResponse(BaseModel):
+    """选品任务历史列表响应，用于分页展示历史任务。"""
+
+    items: list[SelectionTaskResponse] = Field(default_factory=list, description="任务列表")
+    limit: int = Field(..., ge=1, description="分页大小")
+    offset: int = Field(..., ge=0, description="分页偏移")

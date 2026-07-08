@@ -7,21 +7,41 @@ from statistics import mean, median
 from typing import Any
 
 from app.schemas.selection import ProductResultDTO
+from app.providers.base import ProductDataProvider
 
 
 class ProductAnalysisTool:
     """Amazon 商品 Metadata Tool，负责基于公开样本数据分析竞品结构。"""
 
-    def __init__(self, sample_path: Path | None = None) -> None:
+    def __init__(self, sample_path: Path | None = None, streaming_provider: ProductDataProvider | None = None) -> None:
         repo_root = Path(__file__).resolve().parents[3]
         self.sample_path = sample_path or repo_root / "data" / "samples" / "products_sample.json"
+        self.streaming_provider = streaming_provider
 
     def analyze(self, keyword: str, limit: int = 500) -> ProductResultDTO:
         """根据关键词匹配商品样本并输出竞品统计。"""
         products = self._load_products()[:limit]
+        return self._analyze_products(
+            keyword=keyword,
+            products=products,
+            data_source="amazon_reviews_2023_metadata_sample",
+        )
+
+    def analyze_streaming(self, keyword: str, limit: int = 500) -> ProductResultDTO:
+        """通过预留 streaming Provider 分析商品数据。"""
+        if self.streaming_provider is None:
+            return ProductResultDTO(
+                matched_product_count=0,
+                competition_score=Decimal("0.00"),
+                data_source="huggingface_streaming_not_configured",
+            )
+        products = list(self.streaming_provider.iter_products(keyword=keyword, limit=limit))
+        return self._analyze_products(keyword=keyword, products=products, data_source="huggingface_streaming")
+
+    def _analyze_products(self, keyword: str, products: list[dict[str, Any]], data_source: str) -> ProductResultDTO:
+        """对已加载商品集合执行统一统计。"""
         matched_products = [product for product in products if self._matches_keyword(product, keyword)]
         prices = [float(product["price"]) for product in matched_products if self._is_valid_price(product.get("price"))]
-
         brand_distribution = Counter(str(product.get("brand") or "Unknown") for product in matched_products)
         category_distribution = Counter(self._category_name(product.get("categories")) for product in matched_products)
         competition_score = self._calculate_competition_score(
@@ -40,7 +60,7 @@ class ProductAnalysisTool:
             price_avg=Decimal(str(round(mean(prices), 2))) if prices else None,
             competition_score=Decimal(str(round(competition_score, 2))),
             sample_products=matched_products[:10],
-            data_source="amazon_reviews_2023_metadata_sample",
+            data_source=data_source,
         )
 
     def _load_products(self) -> list[dict[str, Any]]:
@@ -84,4 +104,3 @@ class ProductAnalysisTool:
         brand_score = min(20, brand_count * 2)
         category_score = min(10, category_count * 2)
         return min(100, volume_score + brand_score + category_score)
-

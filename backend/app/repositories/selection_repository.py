@@ -47,6 +47,11 @@ class SelectionRepository:
         statement = select(SelectionTask).where(SelectionTask.id == task_id)
         return self.db_session.scalar(statement)
 
+    def list_tasks(self, limit: int, offset: int) -> list[SelectionTask]:
+        """分页查询选品分析任务历史。"""
+        statement = select(SelectionTask).order_by(SelectionTask.created_at.desc()).limit(limit).offset(offset)
+        return list(self.db_session.scalars(statement))
+
     def update_task_status(
         self,
         task: SelectionTask,
@@ -121,4 +126,3 @@ class SelectionRepository:
         """查询任务最新报告。"""
         statement = select(Report).where(Report.task_id == task_id).order_by(Report.created_at.desc())
         return self.db_session.scalar(statement)
-
