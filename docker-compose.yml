@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: trends_agent_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-trends_agent}
+      POSTGRES_USER: ${POSTGRES_USER:-trends_agent}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-trends_agent_dev_password}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - trends_agent_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-trends_agent} -d ${POSTGRES_DB:-trends_agent}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  trends_agent_pgdata:
+
