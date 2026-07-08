@@ -3,10 +3,12 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
+from app.ai.workflow.selection_graph import SelectionWorkflow
 from app.common.enums import SelectionTaskStatus
 from app.common.exceptions import BusinessException
 from app.repositories.selection_repository import SelectionRepository
 from app.schemas.selection import (
+    SelectionAnalyzeResponse,
     SelectionAnalyzeRequest,
     SelectionTaskDetailResponse,
     SelectionTaskResponse,
@@ -16,8 +18,10 @@ from app.schemas.selection import (
 class SelectionService:
     """选品分析服务，负责任务创建、状态流转和结果聚合。"""
 
-    def __init__(self, db_session: Session) -> None:
+    def __init__(self, db_session: Session, workflow: SelectionWorkflow | None = None) -> None:
+        self.db_session = db_session
         self.repository = SelectionRepository(db_session)
+        self.workflow = workflow or SelectionWorkflow()
 
     def create_task(self, request: SelectionAnalyzeRequest) -> SelectionTaskResponse:
         """创建选品分析任务。
@@ -33,6 +37,49 @@ class SelectionService:
             status=SelectionTaskStatus.PENDING.value,
         )
         return SelectionTaskResponse.model_validate(task)
+
+    def analyze(self, request: SelectionAnalyzeRequest) -> SelectionAnalyzeResponse:
+        """执行完整选品分析。
+
+        Step 1: 创建 pending 任务并切换为 running。
+        Step 2: 调用 LangGraph 工作流完成 Skill 编排和结果持久化。
+        Step 3: 提交事务并返回 Markdown 报告。
+        """
+        task = self.repository.create_task(
+            keyword=request.keyword,
+            country=request.country,
+            language=request.language,
+            status=SelectionTaskStatus.PENDING.value,
+        )
+        self.repository.update_task_status(task=task, status=SelectionTaskStatus.RUNNING.value)
+
+        try:
+            final_state = self.workflow.run(
+                task_id=task.id,
+                keyword=task.keyword,
+                country=task.country,
+                language=task.language,
+                repository=self.repository,
+            )
+            self.db_session.commit()
+        except Exception as exc:
+            self.db_session.rollback()
+            failed_task = self.repository.get_task(task.id)
+            if failed_task is not None:
+                self.repository.update_task_status(
+                    task=failed_task,
+                    status=SelectionTaskStatus.FAILED.value,
+                    error_message=str(exc),
+                )
+                self.db_session.commit()
+            raise
+
+        task_detail = self.get_task_detail(task.id)
+        return SelectionAnalyzeResponse(
+            task_id=task.id,
+            status=task_detail.task.status,
+            report=final_state["report"].markdown_content,
+        )
 
     def get_task_detail(self, task_id: UUID) -> SelectionTaskDetailResponse:
         """查询选品分析任务详情。
@@ -64,4 +111,3 @@ class SelectionService:
             column.name: getattr(model, column.name)
             for column in model.__table__.columns  # type: ignore[attr-defined]
         }
-

@@ -36,6 +36,7 @@ class Settings(BaseSettings):
     default_country: str = Field(default="US", description="默认分析站点国家代码")
     default_language: str = Field(default="zh-CN", description="默认用户语言")
     amazon_data_mode: str = Field(default="sample", description="Amazon 数据读取模式")
+    google_trends_live: bool = Field(default=False, description="是否启用 pytrends 实时趋势获取")
 
     model_config = SettingsConfigDict(
         env_file=".env",

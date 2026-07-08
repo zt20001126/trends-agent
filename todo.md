@@ -2,7 +2,7 @@
 
 ## 0. 工程初始化
 
-- [ ] 确认当前目录是否需要初始化 git 仓库。
+- [x] 确认当前目录是否需要初始化 git 仓库。
 - [x] 创建 Python 项目基础结构。
 - [x] 创建 `backend/app` 分层目录。
 - [x] 创建 `.env.example`，包含 DeepSeek 和 PostgreSQL 配置示例。
@@ -30,7 +30,7 @@
 
 ## 3. 数据库与 ORM
 
-- [ ] 安装 SQLAlchemy 2.x、psycopg、Alembic。
+- [x] 安装 SQLAlchemy 2.x、psycopg、Alembic。
 - [x] 创建数据库连接 session。
 - [x] 创建 SQLAlchemy Base。
 - [x] 创建 `SelectionTask` ORM 模型。
@@ -92,35 +92,35 @@
 
 ## 8. LangGraph Agent
 
-- [ ] 创建 SelectionState。
-- [ ] 创建关键词归一化节点。
-- [ ] 创建任务规划节点。
-- [ ] 创建趋势分析节点。
-- [ ] 创建商品分析节点。
-- [ ] 创建评论分析节点。
-- [ ] 创建评分节点。
-- [ ] 创建报告生成节点。
-- [ ] 创建结果持久化节点。
-- [ ] 实现失败降级和错误收集。
-- [ ] 实现 Agent 工作流 happy path 测试。
+- [x] 创建 SelectionState。
+- [x] 创建关键词归一化节点。
+- [x] 创建任务规划节点。
+- [x] 创建趋势分析节点。
+- [x] 创建商品分析节点。
+- [x] 创建评论分析节点。
+- [x] 创建评分节点。
+- [x] 创建报告生成节点。
+- [x] 创建结果持久化节点。
+- [x] 实现失败降级和错误收集。
+- [x] 实现 Agent 工作流 happy path 测试。
 
 ## 9. API 接口
 
-- [ ] 实现 `POST /api/v1/selections/analyze`。
-- [ ] 实现 `GET /api/v1/selections/{task_id}`。
-- [ ] 在 Service 层调用 Agent。
-- [ ] API route 只做参数接收和响应返回。
-- [ ] 返回 Markdown 报告。
+- [x] 实现 `POST /api/v1/selections/analyze`。
+- [x] 实现 `GET /api/v1/selections/{task_id}`。
+- [x] 在 Service 层调用 Agent。
+- [x] API route 只做参数接收和响应返回。
+- [x] 返回 Markdown 报告。
 
 ## 10. 测试
 
-- [ ] 测试 Opportunity Score Tool 权重计算。
-- [ ] 测试竞争评分反向转换。
-- [ ] 测试报告模板降级。
-- [ ] 测试 Repository 创建和查询。
-- [ ] 测试 Health Check。
-- [ ] 测试选品分析接口 happy path。
-- [ ] 测试 pytrends 失败时仍可生成报告。
+- [x] 测试 Opportunity Score Tool 权重计算。
+- [x] 测试竞争评分反向转换。
+- [x] 测试报告模板降级。
+- [x] 测试 Repository 创建和查询。
+- [x] 测试 Health Check。
+- [x] 测试选品分析接口 happy path。
+- [x] 测试 pytrends 失败时仍可生成报告。
 
 ## 11. 数据样本
 
