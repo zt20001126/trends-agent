@@ -82,13 +82,13 @@
 
 ## 7. Skill 层
 
-- [ ] 实现 Trend Skill。
-- [ ] 实现 Product Skill。
-- [ ] 实现 Review Skill。
-- [ ] 实现 Scoring Skill。
-- [ ] 实现 Report Skill。
-- [ ] 确保 Skill 只组合 Tool，不直接处理 API 请求。
-- [ ] 确保 Tool 输出结构稳定，方便测试。
+- [x] 实现 Trend Skill。
+- [x] 实现 Product Skill。
+- [x] 实现 Review Skill。
+- [x] 实现 Scoring Skill。
+- [x] 实现 Report Skill。
+- [x] 确保 Skill 只组合 Tool，不直接处理 API 请求。
+- [x] 确保 Tool 输出结构稳定，方便测试。
 
 ## 8. LangGraph Agent
 
