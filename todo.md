@@ -69,16 +69,16 @@
 
 ## 6. Tool 层
 
-- [ ] 实现 Google Trends Tool。
-- [ ] 为 Google Trends Tool 增加缓存和失败返回。
-- [ ] 实现 Amazon Product Metadata Tool。
-- [ ] 支持从 `data/samples` 读取小样本。
+- [x] 实现 Google Trends Tool。
+- [x] 为 Google Trends Tool 增加缓存和失败返回。
+- [x] 实现 Amazon Product Metadata Tool。
+- [x] 支持从 `data/samples` 读取小样本。
 - [ ] 预留 Hugging Face streaming 数据读取接口。
-- [ ] 实现 Review Analysis Tool。
-- [ ] 支持低星评论筛选。
-- [ ] 支持痛点关键词提取。
-- [ ] 实现 Opportunity Score Tool。
-- [ ] 实现模板 Report Generation Tool。
+- [x] 实现 Review Analysis Tool。
+- [x] 支持低星评论筛选。
+- [x] 支持痛点关键词提取。
+- [x] 实现 Opportunity Score Tool。
+- [x] 实现模板 Report Generation Tool。
 
 ## 7. Skill 层
 
@@ -124,11 +124,11 @@
 
 ## 11. 数据样本
 
-- [ ] 确定 Amazon Reviews 2023 使用的第一批类目。
-- [ ] 准备 metadata 小样本。
-- [ ] 准备 reviews 小样本。
-- [ ] 编写样本数据格式说明。
-- [ ] 避免提交大体积数据文件。
+- [x] 确定 Amazon Reviews 2023 使用的第一批类目。
+- [x] 准备 metadata 小样本。
+- [x] 准备 reviews 小样本。
+- [x] 编写样本数据格式说明。
+- [x] 避免提交大体积数据文件。
 
 ## 12. 本地运行验证
 

@@ -1,0 +1,27 @@
+[
+  {
+    "parent_asin": "B001",
+    "title": "Smart Fitness Band with Heart Rate Monitor",
+    "description": "Waterproof smart fitness band with sleep tracking and app sync.",
+    "brand": "FitNova",
+    "categories": ["Electronics", "Wearable Technology", "Activity Trackers"],
+    "price": 39.99
+  },
+  {
+    "parent_asin": "B002",
+    "title": "Smart Fitness Band for Women and Men",
+    "description": "Fitness tracker with long battery life and step counter.",
+    "brand": "PulseGo",
+    "categories": ["Electronics", "Wearable Technology", "Activity Trackers"],
+    "price": 49.99
+  },
+  {
+    "parent_asin": "B003",
+    "title": "Smart Watch with Bluetooth Calling",
+    "description": "Large screen smart watch with sport modes.",
+    "brand": "WatchPro",
+    "categories": ["Electronics", "Wearable Technology", "Smartwatches"],
+    "price": 89.99
+  }
+]
+

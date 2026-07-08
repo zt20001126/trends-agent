@@ -1,0 +1,26 @@
+[
+  {
+    "parent_asin": "B001",
+    "title": "Battery is disappointing",
+    "text": "The smart fitness band works but the battery drains fast and charging is slow.",
+    "rating": 2
+  },
+  {
+    "parent_asin": "B001",
+    "title": "App sync issue",
+    "text": "This smart fitness band app does not sync steps correctly and the accuracy is poor.",
+    "rating": 2
+  },
+  {
+    "parent_asin": "B002",
+    "title": "Good value",
+    "text": "This smart fitness band is comfortable and has useful sleep tracking.",
+    "rating": 5
+  },
+  {
+    "parent_asin": "B003",
+    "title": "Nice screen",
+    "text": "The smart watch screen is bright and clear.",
+    "rating": 4
+  }
+]
