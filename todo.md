@@ -57,15 +57,15 @@
 
 ## 5. DeepSeek AI 边界
 
-- [ ] 创建 DeepSeek Client。
-- [ ] 从 `.env` 读取 `DEEPSEEK_API_KEY`。
-- [ ] 从 `.env` 读取 `DEEPSEEK_BASE_URL`。
-- [ ] 从 `.env` 读取 `DEEPSEEK_MODEL`。
-- [ ] 实现关键词归一化方法。
-- [ ] 实现痛点总结方法。
-- [ ] 实现报告生成方法。
-- [ ] 增加 LLM 调用失败异常处理。
-- [ ] 确保 API route 不直接调用 DeepSeek Client。
+- [x] 创建 DeepSeek Client。
+- [x] 从 `.env` 读取 `DEEPSEEK_API_KEY`。
+- [x] 从 `.env` 读取 `DEEPSEEK_BASE_URL`。
+- [x] 从 `.env` 读取 `DEEPSEEK_MODEL`。
+- [x] 实现关键词归一化方法。
+- [x] 实现痛点总结方法。
+- [x] 实现报告生成方法。
+- [x] 增加 LLM 调用失败异常处理。
+- [x] 确保 API route 不直接调用 DeepSeek Client。
 
 ## 6. Tool 层
 

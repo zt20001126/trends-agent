@@ -28,6 +28,10 @@ class Settings(BaseSettings):
         default="deepseek-v4-flash",
         description="DeepSeek 默认模型名称",
     )
+    deepseek_timeout_seconds: int = Field(default=60, description="DeepSeek 请求超时时间")
+    deepseek_temperature: float = Field(default=0.2, ge=0, le=2, description="DeepSeek 生成温度")
+    deepseek_max_tokens: int = Field(default=3000, ge=256, description="DeepSeek 单次生成最大 token 数")
+    deepseek_review_sample_limit: int = Field(default=50, ge=1, description="评论痛点总结的最大评论样本数")
 
     default_country: str = Field(default="US", description="默认分析站点国家代码")
     default_language: str = Field(default="zh-CN", description="默认用户语言")
@@ -48,4 +52,3 @@ def get_settings() -> Settings:
 
 
 settings = get_settings()
-
