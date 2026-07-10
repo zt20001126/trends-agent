@@ -16,11 +16,23 @@ class SelectionAnalyzeRequest(BaseModel):
     language: str = Field(default="zh-CN", min_length=2, max_length=20, description="用户输入语言")
 
 
+class ExecutionStepResponse(BaseModel):
+    """Agent 执行步骤响应，用于向前端展示每一步做了什么和得到什么结果。"""
+
+    code: str = Field(..., description="步骤编码")
+    title: str = Field(..., description="步骤标题")
+    status: str = Field(default="completed", description="步骤状态")
+    description: str = Field(..., description="步骤说明")
+    result_summary: str = Field(..., description="步骤结果摘要")
+    detail: dict[str, Any] = Field(default_factory=dict, description="步骤详情")
+
+
 class SelectionAnalyzeResponse(BaseModel):
-    """选品分析响应，用于返回任务 ID、状态和 Markdown 报告。"""
+    """选品分析响应，用于返回任务 ID、状态、Agent 执行流程和 Markdown 报告。"""
 
     task_id: UUID = Field(..., description="选品分析任务 ID")
     status: SelectionTaskStatus = Field(..., description="选品分析任务状态")
+    execution_steps: list[ExecutionStepResponse] = Field(default_factory=list, description="Agent 执行流程")
     report: str | None = Field(default=None, description="Markdown 格式选品报告")
 
 

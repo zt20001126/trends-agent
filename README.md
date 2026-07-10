@@ -138,8 +138,7 @@ conda run -n hooks alembic upgrade head
 ## 启动后端服务
 
 ```powershell
-$env:PYTHONPATH="D:\Work\code\trend-agent\backend"
-conda run -n hooks python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000 --reload
+conda run -n hooks uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 访问：
@@ -316,8 +315,7 @@ conda run -n hooks alembic upgrade head
 启动 API：
 
 ```powershell
-$env:PYTHONPATH="D:\Work\code\trend-agent\backend"
-conda run -n hooks python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000 --reload
+conda run -n hooks uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 运行测试：
@@ -328,4 +326,3 @@ $env:PYTHONIOENCODING="utf-8"
 $env:PYTHONUTF8="1"
 conda run -n hooks pytest backend/tests -q
 ```
-

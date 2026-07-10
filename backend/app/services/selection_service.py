@@ -81,6 +81,7 @@ class SelectionService:
         return SelectionAnalyzeResponse(
             task_id=task.id,
             status=task_detail.task.status,
+            execution_steps=final_state.get("execution_steps", []),
             report=final_state["report"].markdown_content,
         )
 

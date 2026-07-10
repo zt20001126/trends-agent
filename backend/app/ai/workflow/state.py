@@ -21,10 +21,10 @@ class SelectionState(TypedDict, total=False):
     language: str
     repository: SelectionRepository
     planned_steps: list[str]
+    execution_steps: list[dict[str, Any]]
     trend_result: TrendResultDTO
     product_result: ProductResultDTO
     review_result: ReviewResultDTO
     score_result: ScoreResultDTO
     report: ReportDTO
     errors: list[dict[str, Any]]
-

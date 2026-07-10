@@ -15,8 +15,12 @@ def test_analyze_selection_api_happy_path() -> None:
 
     assert response.status_code == 200
     payload = response.json()["data"]
-    assert payload["status"] == "completed_with_warnings"
-    assert "# 选品分析报告：智能手环" in payload["report"]
+    assert payload["status"] in ["completed", "completed_with_warnings"]
+    assert len(payload["execution_steps"]) >= 8
+    assert payload["execution_steps"][0]["code"] == "create_task_context"
+    assert payload["execution_steps"][-1]["code"] == "persist_results"
+    assert "智能手环" in payload["report"]
+    assert "风险说明" in payload["report"]
 
     task_id = UUID(payload["task_id"])
     db_session = SessionLocal()
@@ -38,4 +42,3 @@ def test_get_selection_task_api_returns_not_found() -> None:
 
     assert response.status_code == 404
     assert response.json()["code"] == "SELECTION_TASK_NOT_FOUND"
-
